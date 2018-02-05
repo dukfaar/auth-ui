@@ -1,0 +1,52 @@
+{
+  "name": "oauth_ui",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist",
+    "webpack": "webpack",
+    "build-docker": "docker build . -t dukfaar/auth-ui",
+    "tsc": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
+  },
+  "author": "dukfaar <dukfaar@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "latest",
+    "axios": "latest",
+    "babel": "latest",
+    "babel-core": "latest",
+    "babel-loader": "latest",
+    "babel-preset-env": "latest",
+    "babel-preset-react": "latest",
+    "babel-preset-stage-2": "latest",
+    "css-loader": "latest",
+    "express": "latest",
+    "file-loader": "latest",
+    "history": "latest",
+    "material-ui": "next",
+    "node-cache": "latest",
+    "query-string": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "react-redux": "latest",
+    "react-router": "latest",
+    "react-router-dom": "latest",
+    "react-router-redux": "next",
+    "redux": "latest",
+    "redux-thunk": "latest",
+    "style-loader": "latest",
+    "typeface-roboto": "0.0.45",
+    "typescript": "latest",
+    "webpack": "latest"
+  },
+  "devDependencies": {
+    "@storybook/react": "^3.4.0-alpha.1",
+    "@storybook/addon-actions": "^3.4.0-alpha.1",
+    "@storybook/addon-links": "^3.4.0-alpha.1"
+  }
+}
