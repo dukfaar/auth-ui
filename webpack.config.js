@@ -42,12 +42,6 @@ module.exports = {
         ]
     },
     plugins: [
-        new webpack.DefinePlugin({
-            AUTH_BACKEND_SERVER: JSON.stringify('https://auth.localhost'),
-            CLIENT_ID: JSON.stringify('dukfaar-ui-app'),
-            CLIENT_SECRET: JSON.stringify('i am a ninja unicorn')
-        }),
-
         new webpack.optimize.CommonsChunkPlugin({
             name: 'vendor',
             filename: 'vendor.js',

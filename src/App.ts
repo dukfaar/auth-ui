@@ -15,6 +15,7 @@ export class App {
 		this.expressApp.use('/bundle', express.static(path.join(__dirname, '..', 'bundle')))
 		this.expressApp.use('/static', express.static(path.join(__dirname, '..', 'static')))
 		this.expressApp.use('/images', express.static(path.join(__dirname, '..', 'images')))
+		this.expressApp.use('/config', express.static('/var/auth'))
 		this.expressApp.use('/*', express.static(path.join(__dirname, '..', 'static')))		
 	}
  

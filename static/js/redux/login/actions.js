@@ -1,19 +1,20 @@
 import axios from 'axios'
 import Querystring from 'query-string'
-//import store from '../store'
 
-const loginRefreshOptions = {
-    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-    auth: {
-        username: CLIENT_ID,
-        password: CLIENT_SECRET
-    }
-}
+import config from '../../config'
 
 export function requestLoginData(username, password) {
+    const loginRefreshOptions = {
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        auth: {
+            username: config.CLIENT_ID,
+            password: config.CLIENT_SECRET
+        }
+    }
+
     return dispatch => {
         dispatch({ type: 'REQUESTING LOGIN' })
-        return axios.post(`${AUTH_BACKEND_SERVER}/oauth/token`, 
+        return axios.post(`${config.AUTH_BACKEND_SERVER}/oauth/token`, 
             Querystring.stringify({
                 username: username, 
                 password: password,
@@ -29,9 +30,17 @@ export function requestLoginData(username, password) {
 }
 
 export function refreshAccessToken(refreshToken) {
+    const loginRefreshOptions = {
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        auth: {
+            username: config.CLIENT_ID,
+            password: config.CLIENT_SECRET
+        }
+    }
+
     return dispatch => {
         dispatch({type: 'REFRESHING ACCESSTOKEN'})
-        return axios.post(`${AUTH_BACKEND_SERVER}/oauth/token`, 
+        return axios.post(`${config.AUTH_BACKEND_SERVER}/oauth/token`, 
             Querystring.stringify({
                 refresh_token: refreshToken, 
                 grant_type: 'refresh_token'
@@ -69,7 +78,7 @@ export function fetchAccountData() {
     return dispatch => {
         dispatch({ type: 'FETCHING ACCOUNTDATA'})   
 
-        return axios.post(`${AUTH_BACKEND_SERVER}`, {
+        return axios.post(`${config.AUTH_BACKEND_SERVER}`, {
             query: 'query { me { _id username email permissions { _id name } } }'
         })
         .then(response => {

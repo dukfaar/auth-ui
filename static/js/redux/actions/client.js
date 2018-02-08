@@ -1,10 +1,12 @@
 import axios from 'axios'
 
+import config from '../../config'
+
 export function fetchClients() {
     return dispatch => {
         dispatch({type: 'FETCHING CLIENTS'})
         
-        axios.post(`${AUTH_BACKEND_SERVER}`, {
+        axios.post(`${config.AUTH_BACKEND_SERVER}`, {
             query: 'query { clients { _id clientId clientSecret grants } }'
         })
         .then(response => {
