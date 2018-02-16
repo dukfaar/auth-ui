@@ -31,7 +31,7 @@ function mergeProps(state, dispatch, props) {
         ...state,
         ...dispatch,
         ...props,
-        isValidLink: (link) => (link.requires ? _.every(link.requires, r => _.includes(state.permissions, r)) : true)
+        isValidLink: (link) => link.requires ? _.differenceWith(link.requires, state.permissions, (r, p) => r === p.name ).length===0 : true
     }
 }
 

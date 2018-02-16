@@ -77,7 +77,7 @@ export function fetchAccountData() {
         dispatch({ type: 'FETCHING ACCOUNTDATA'})   
 
         return axios.post(`${AUTH_BACKEND_SERVER}`, {
-            query: 'query { me { _id username email permissions { _id name } } }'
+            query: 'query { me { _id username email permissions { name } } }'
         })
         .then(response => {
             if(response.data.errors && response.data.errors[0].message === 'valid accesstoken is required') {
