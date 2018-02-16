@@ -57,6 +57,12 @@ module.exports = {
                 return !isExternal(module) && count >= 2
             }
         }),
+
+        new webpack.DefinePlugin({
+            'AUTH_BACKEND_SERVER': process.env.AUTH_BACKEND_SERVER,
+            'CLIENT_ID': process.env.CLIENT_ID,
+            'CLIENT_SECRET': process.env.CLIENT_SECRET
+        }),
         
         //new webpack.optimize.UglifyJsPlugin({})
     ]

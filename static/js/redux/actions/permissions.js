@@ -1,12 +1,10 @@
 import axios from 'axios'
 
-import config from '../../config'
-
 export function fetchPermissions() {
     return dispatch => {
         dispatch({type: 'FETCHING PERMISSIONS'})
         
-        axios.post(`${config.AUTH_BACKEND_SERVER}`, {
+        axios.post(`${AUTH_BACKEND_SERVER}`, {
             query: 'query { permissions { _id name } }'
         })
         .then(response => {

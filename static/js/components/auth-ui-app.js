@@ -50,9 +50,9 @@ class AuthUiApp extends React.Component {
         let navLinks = [
             { href: '/', text: 'Home' },
             { href: '/user', text: 'User', requires: [ 'user read' ] },
-            { href: '/client', text: 'Client' },
-            { href: '/permission', text: 'Permission' },
-            { href: '/role', text: 'Role' }
+            { href: '/client', text: 'Client', requires: [ 'client read'] },
+            { href: '/permission', text: 'Permission', requires: [ 'permission read'] },
+            { href: '/role', text: 'Role', requires: [ 'role read'] }
         ]
 
         if(!loggedIn) navLinks.push({ href: '/login', text: 'Login' })
@@ -79,7 +79,7 @@ class AuthUiApp extends React.Component {
 
 export default connect ( 
     state => { return {
-      user: state.loginData.user  
+      user: state.loginData.user,
     } },
     dispatch => { return {
     } }

@@ -5,13 +5,11 @@ import { List } from 'material-ui'
 
 import NavigationLink from './navigationLink'
 
-class Navigation extends React.Component {
-    isValidLink(link) {
-        return true
-    }
+import * as _ from 'lodash'
 
+class Navigation extends React.Component {
     render() {
-        let navItems = this.props.links.filter(this.isValidLink).map(link => (<NavigationLink key={link.text} link={link}></NavigationLink>))
+        let navItems = this.props.links.filter(this.props.isValidLink).map(link => (<NavigationLink key={link.text} link={link}></NavigationLink>))
         return (<List>{navItems}</List>)
     }
 }
@@ -28,4 +26,13 @@ function mapDispatchToProps(dispatch) {
     }
 }
 
-export default connect (mapStateToProps, mapDispatchToProps)(Navigation)
+function mergeProps(state, dispatch, props) {
+    return {
+        ...state,
+        ...dispatch,
+        ...props,
+        isValidLink: (link) => (link.requires ? _.every(link.requires, r => _.includes(state.permissions, r)) : true)
+    }
+}
+
+export default connect (mapStateToProps, mapDispatchToProps, mergeProps)(Navigation)
