@@ -7,6 +7,7 @@
     "build": "tsc",
     "start": "node dist",
     "webpack": "webpack",
+    "webpack-local-dev-watch": "export AUTH_BACKEND_SERVER=\\\"https://auth.localhost\\\" CLIENT_ID=\\\"dukfaar-ui-app\\\" CLIENT_SECRET=\\\"'i am a ninja unicorn'\\\" && webpack --watch",
     "build-docker": "docker build . -t dukfaar/auth-ui",
     "tsc": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
