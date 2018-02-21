@@ -1,21 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import * as _ from 'lodash'
 
 import { fetchUsers } from '../redux/actions/user.js'
 
 import { Table, TableHead, TableBody, TableRow, TableCell, Card, CardContent } from 'material-ui'
-
-class User extends React.Component {
-    render() {
-        return (
-            <TableRow>
-                <TableCell>{this.props.user.username}</TableCell>
-                <TableCell>{this.props.user.email}</TableCell>
-                <TableCell>{this.props.user.roles.map(r => r.name)}</TableCell>
-            </TableRow>
-        )
-    }
-}
+import UserRow from './User/UserRow'
 
 class UserList extends React.Component {
     render() {
@@ -29,7 +19,7 @@ class UserList extends React.Component {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {this.props.users.map(u => <User key={u._id} user={u}/>)}
+                    {this.props.users.map(u => <UserRow key={u._id} user={u}/>)}
                 </TableBody>
             </Table>
         )
@@ -55,10 +45,10 @@ class UserPage extends React.Component {
 }
 
 export default connect ( 
-    state => { return {
-      users: state.users.users
-    } },
-    dispatch => { return {
+    state => ({
+        users: state.users.users
+    }),
+    dispatch => ({
         fetchUsers: () => dispatch(fetchUsers())
-    } }
+    })
 )(UserPage)
