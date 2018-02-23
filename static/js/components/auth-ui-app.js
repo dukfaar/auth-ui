@@ -29,9 +29,9 @@ const styles = theme => ({
         width: drawerWidth
     },
     content: {
-        backgroundColor: theme.palette.background.default,
         width: '100%',
         padding: theme.spacing.unit * 3,
+        overflow: 'auto',
     },
     appFrame: {
         position: 'relative',
@@ -62,13 +62,13 @@ class AuthUiApp extends React.Component {
                 <Reboot />
                 <ConnectedRouter history={history}>
                     <div className={classes.appFrame}>
-                        <Drawer variant="permanent" open classes={{paper: classes.drawer}}>
+                        <Drawer variant="permanent" classes={{paper: classes.drawer}} anchor="left">
                             <Navigation links={navLinks}/>
 
                             {this.props.user?<Button>{this.props.user.username}</Button>:null}        
                         </Drawer>
 
-                        <main className={classes.content}>      
+                        <main className={classes.content}>                         
                             <Routes/>                                    
                         </main>
                     </div>
