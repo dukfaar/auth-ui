@@ -3,52 +3,98 @@ import { connect } from 'react-redux'
 import * as _ from 'lodash'
 
 import { fetchUsers } from '../redux/actions/user.js'
+import { fetchPermissions } from '../redux/actions/permissions'
+import { fetchRoles } from '../redux/actions/roles'
 
-import { Table, TableHead, TableBody, TableRow, TableCell, Card, CardContent } from 'material-ui'
-import UserRow from './User/UserRow'
-
-class UserList extends React.Component {
-    render() {
-        return (
-            <Table>
-                <TableHead>
-                    <TableRow>
-                        <TableCell>Username</TableCell>
-                        <TableCell>Email</TableCell>
-                        <TableCell>Roles</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {this.props.users.map(u => <UserRow key={u._id} user={u}/>)}
-                </TableBody>
-            </Table>
-        )
-    }
-}
+import { Table, TableHead, TableBody, TableRow, TableCell, Card, CardContent, Grid, Collapse, List, ListItem, ListItemText, ListItemIcon, TextField, Icon } from 'material-ui'
+import withUserPermissions from '../common/withUserPermissions'
 
 class UserPage extends React.Component {
     constructor(props) {
         super(props)
 
+        this.state = {
+
+        }
+
         this.props.fetchUsers()
+        this.props.fetchPermissions()
+        this.props.fetchRoles()
+    }
+
+    selectUser = user => {
+        this.setState({selectedUser: user})
+    }
+
+    selectedUserHasPermission(permissionName) {
+        return _.find(this.state.selectedUser.permissions, p => p.name === permissionName )
+    }
+
+    selectedUserHasRole(roleName) {
+        return _.find(this.state.selectedUser.roles, r => r.name === roleName )
     }
 
     render() {
         return (
-            <Card>
-                <CardContent>
-                    <UserList users={this.props.users}/>
-                </CardContent>
-            </Card>
+                <Card>
+                    <Grid container>
+                        <Grid item xs={2}>
+                            <List>
+                                {this.props.users.map((u, i, array) => (<ListItem divider={i!=array.length-1} key={u._id} button onClick={() => this.selectUser(u)}><ListItemText primary={u.username}/></ListItem>))}
+                            </List>
+                        </Grid>
+
+                        {this.state.selectedUser && this.props.hasPermission('user update') && <Grid item xs={10}>
+                            <Grid container>
+                                <Grid item xs={12} md={8}>
+                                    <Grid container>
+                                        <Grid item xs={12} md={6}>
+                                            <TextField id="username" label="Username" value={this.state.selectedUser.username}/>
+                                        </Grid>
+                                        <Grid item xs={12} md={6}>
+                                            <TextField id="email" label="E-Mail" value={this.state.selectedUser.email}/>
+                                        </Grid>
+                                    </Grid>
+                                </Grid>
+                                <Grid item xs={12} md={2}>
+                                    <List>
+                                        {this.props.roles.map((r, i, array) => (
+                                        <ListItem divider={i!=array.length-1} key={r._id} button onClick={() => this.toggleRole(r)}>
+                                            <ListItemIcon>
+                                                {this.selectedUserHasRole(r.name)?<Icon style={{color: 'green'}}>done</Icon>:<Icon style={{color: 'red'}}>clear</Icon>}
+                                            </ListItemIcon>
+                                            <ListItemText primary={r.name}/>
+                                        </ListItem>))}
+                                    </List>
+                                </Grid>
+                                <Grid item xs={12} md={2}>
+                                    <List>
+                                        {this.props.permissions.map((p, i, array) => (
+                                        <ListItem divider={i!=array.length-1} key={p._id} button onClick={() => this.togglePermission(p)}>
+                                            <ListItemIcon>
+                                                {this.selectedUserHasPermission(p.name)?<Icon style={{color: 'green'}}>done</Icon>:<Icon style={{color: 'red'}}>clear</Icon>}
+                                            </ListItemIcon>
+                                            <ListItemText primary={p.name}/>
+                                        </ListItem>))}
+                                    </List>
+                                </Grid>
+                            </Grid>
+                        </Grid>}
+                    </Grid>
+                </Card>                   
         )
     }    
 }
 
 export default connect ( 
     state => ({
-        users: state.users.users
+        users: state.users.users,
+        permissions: state.permissions.permissions,
+        roles: state.roles.roles
     }),
     dispatch => ({
-        fetchUsers: () => dispatch(fetchUsers())
+        fetchUsers: () => dispatch(fetchUsers()),
+        fetchPermissions: () => dispatch(fetchPermissions()),
+        fetchRoles: () => dispatch(fetchRoles())
     })
-)(UserPage)
+)(withUserPermissions(UserPage))
