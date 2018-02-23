@@ -6,7 +6,7 @@ import Navigation from 'navigation/navigation'
 import { ConnectedRouter } from 'react-router-redux'
 
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles'
-import { Drawer, Button } from 'material-ui'
+import { Drawer, Button, Reboot } from 'material-ui'
 
 import { withStyles } from 'material-ui/styles'
 
@@ -59,9 +59,10 @@ class AuthUiApp extends React.Component {
 
         return (
             <MuiThemeProvider theme={theme}>
+                <Reboot />
                 <ConnectedRouter history={history}>
                     <div className={classes.appFrame}>
-                        <Drawer type="permanent" open classes={{paper: classes.drawer}}>
+                        <Drawer variant="permanent" open classes={{paper: classes.drawer}}>
                             <Navigation links={navLinks}/>
 
                             {this.props.user?<Button>{this.props.user.username}</Button>:null}        

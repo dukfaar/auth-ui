@@ -47,7 +47,7 @@ class UserPage extends React.Component {
         return (
                 <Card>
                     <Grid container>
-                        <Grid item xs={2}>
+                        <Grid item xs={2} style={{borderRight: "1px solid grey"}}>
                             <List>
                                 {this.props.users.map((u, i, array) => (<ListItem divider={i!=array.length-1} key={u._id} button onClick={() => this.selectUser(u)}><ListItemText primary={u.username}/></ListItem>))}
                             </List>
@@ -65,7 +65,7 @@ class UserPage extends React.Component {
                                         </Grid>
                                     </Grid>
                                 </Grid>
-                                <Grid item xs={12} md={2}>
+                                <Grid item xs={12} md={2} style={{borderLeft: "1px solid grey"}}>
                                     <List>
                                         {this.props.roles.map((r, i, array) => (
                                         <ListItem divider={i!=array.length-1} key={r._id} button onClick={() => this.toggleRole(r)}>
@@ -76,7 +76,7 @@ class UserPage extends React.Component {
                                         </ListItem>))}
                                     </List>
                                 </Grid>
-                                <Grid item xs={12} md={2}>
+                                <Grid item xs={12} md={2} style={{borderLeft: "1px solid grey"}}>
                                     <List>
                                         {this.props.permissions.map((p, i, array) => (
                                         <ListItem divider={i!=array.length-1} key={p._id} button onClick={() => this.togglePermission(p)}>
