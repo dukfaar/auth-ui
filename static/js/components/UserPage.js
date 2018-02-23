@@ -27,6 +27,14 @@ class UserPage extends React.Component {
         if(this.props.roles.length === 0) this.props.fetchRoles()
     }
 
+    toggleRole = role => {
+        console.log(role)
+    }
+
+    togglePermission = permission => {
+        console.log(permission)
+    }
+
     selectedUserHasPermission(permissionName) {
         return _.find(this.state.selectedUser.permissions, p => p.name === permissionName )
     }
