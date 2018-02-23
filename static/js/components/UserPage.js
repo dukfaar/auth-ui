@@ -17,13 +17,14 @@ class UserPage extends React.Component {
 
         }
 
-        this.props.fetchUsers()
-        this.props.fetchPermissions()
-        this.props.fetchRoles()
+        this.props.fetchUsers()    
     }
 
     selectUser = user => {
         this.setState({selectedUser: user})
+
+        if(this.props.permissions.length === 0) this.props.fetchPermissions()
+        if(this.props.roles.length === 0) this.props.fetchRoles()
     }
 
     selectedUserHasPermission(permissionName) {
