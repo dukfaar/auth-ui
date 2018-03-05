@@ -10,6 +10,7 @@ function toObjectById(input) {
 export let clientsReducer = (state = {clients: []}, action) => {
     switch (action.type) {
         case 'SET CLIENTS': return {...state, clients: action.clients, byId: toObjectById(action.clients)}
+        case 'FAILURE FETCHING CLIENTS': return {...state, clients: [], byId: {}}
         default: return state
     }
 }
@@ -17,6 +18,7 @@ export let clientsReducer = (state = {clients: []}, action) => {
 export let usersReducer = (state = {users: []}, action) => {
     switch (action.type) {
         case 'SET USERS': return {...state, users: action.users, byId: toObjectById(action.users)}
+        case 'FAILURE FETCHING USERS': return {...state, users: [], byId: {}}
         default: return state
     }
 }
@@ -24,6 +26,7 @@ export let usersReducer = (state = {users: []}, action) => {
 export let roleReducer = (state = {roles: []}, action) => {
     switch (action.type) {
         case 'SET ROLES': return {...state, roles: action.roles, byId: toObjectById(action.roles)}
+        case 'FAILURE FETCHING ROLES': return {...state, roles: [], byId: {}}
         default: return state
     }
 }
@@ -41,7 +44,8 @@ export let permissionReducer = (state = {permissions: []}, action) => {
                 ...state.byId,
                 ...update
             }
-         }
+        }
+        case 'FAILURE FETCHING PERMISSIONS': return {...state, permissions: [], byId: {}}
         default: return state
     }
 }
