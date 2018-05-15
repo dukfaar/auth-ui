@@ -20,8 +20,7 @@ function isExternal(module) {
 
 module.exports = {
     entry: {
-        app: './static/js/index.js',
-        login: ['./static/js/redux/login/actions.js', './static/js/redux/login/reducer.js']
+        app: './static/js/index.js'
     },
     output: {
         path: path.join(__dirname, 'bundle'),
@@ -38,7 +37,7 @@ module.exports = {
             { test: /\.js$/, loader: 'babel-loader', exclude: /node_modules/ },
             { test: /\.jsx$/, loader: 'babel-loader', exclude: /node_modules/ },
             { test: /\.css$/, loader: 'style-loader!css-loader' },
-            { test: /\.(woff|woff2|eot|ttf|svg)$/, loader: 'file-loader?name=fonts/[name].[ext]' }
+            { test: /\.(woff|woff2|eot|ttf|svg)$/, loader: 'file-loader?name=fonts/[name].[ext]&publicPath=/bundle' }
         ]
     },
     plugins: [
@@ -59,9 +58,10 @@ module.exports = {
         }),
 
         new webpack.DefinePlugin({
-            'AUTH_BACKEND_SERVER': process.env.AUTH_BACKEND_SERVER,
-            'CLIENT_ID': process.env.CLIENT_ID,
-            'CLIENT_SECRET': process.env.CLIENT_SECRET
+            'API_GATEWAY_URL': JSON.stringify(process.env.API_GATEWAY_URL),
+            'API_GATEWAY_WS': JSON.stringify(process.env.API_GATEWAY_WS),
+            'CLIENT_ID': JSON.stringify(process.env.CLIENT_ID),
+            'CLIENT_SECRET': JSON.stringify(process.env.CLIENT_SECRET)
         }),
         
         //new webpack.optimize.UglifyJsPlugin({})

@@ -1,0 +1,154 @@
+type Client implements Node {
+  _id: ID!
+  clientId: String
+  clientSecret: String
+  grants: [String]
+  tokens(first: Int, last: Int, after: ID, before: ID): TokenConnection
+}
+
+type ClientConnection {
+  edges: [ClientEdge]
+  pageInfo: PageInfo!
+}
+
+type ClientEdge {
+  cursor: String!
+  node: Client
+}
+
+scalar Date
+
+type Mutation {
+  createClient(clientId: String!, clientSecret: String!): Client
+  updateClient(clientId: String!, clientSecret: String, grants: [String]): Client
+  deleteClient(clientId: String!): Client
+  createUser(username: String!, email: String!, password: String!): User
+  updateUser(username: String!, user: UserInput): User
+  deleteUser(username: String!): User
+  createPermission(name: String!): Permission
+  updatePermission(name: String!, permission: PermissionInput): Permission
+  deletePermissionByName(name: String!): Permission
+  createRole(name: String!): Role
+  updateRole(name: String!, role: RoleInput): Role
+  deleteRole(name: String!): Role
+  registerTypeForPermissions(name: String!, fields: [String]!): [Permission]
+}
+
+interface Node {
+  _id: ID!
+}
+
+type PageInfo {
+  hasNextPage: Boolean
+  hasPreviousPage: Boolean
+  startCursor: String
+  endCursor: String
+}
+
+type Permission implements Node {
+  _id: ID!
+  name: String!
+}
+
+type PermissionConnection {
+  edges: [PermissionEdge]
+  pageInfo: PageInfo!
+}
+
+type PermissionEdge {
+  cursor: String!
+  node: Permission
+}
+
+input PermissionInput {
+  name: String
+}
+
+type Query {
+  clients(first: Int, last: Int, after: ID, before: ID): ClientConnection
+  users(first: Int, last: Int, after: ID, before: ID): UserConnection
+  tokens(first: Int, last: Int, after: ID, before: ID): TokenConnection
+  permissions(first: Int, last: Int, after: ID, before: ID): PermissionConnection
+  roles(first: Int, last: Int, after: ID, before: ID): RoleConnection
+  me: User
+  login(username: String!, password: String!, clientId: String!, clientSecret: String!): Token
+  refresh(refreshToken: String!, clientId: String!, clientSecret: String!): Token
+  userByAccessToken(accessToken: String!): User
+  user(id: ID!): User
+  testNotify: String
+}
+
+type Role implements Node {
+  _id: ID!
+  name: String!
+  permissions(first: Int, last: Int, after: ID, before: ID): PermissionConnection
+}
+
+type RoleConnection {
+  edges: [RoleEdge]
+  pageInfo: PageInfo!
+}
+
+type RoleEdge {
+  cursor: String!
+  node: Role
+}
+
+input RoleInput {
+  name: String
+  permissions: [String]
+}
+
+type Subscription {
+  permissionCreated: Permission
+  roleCreated: Role
+  testSubscription: String
+}
+
+type Token implements Node {
+  _id: ID!
+  clientId: String
+  client: Client
+  userId: String
+  user: User
+  accessToken: String
+  refreshToken: String
+  accessTokenExpiresAt: Date
+  refreshTokenExpiresAt: Date
+}
+
+type TokenConnection {
+  edges: [TokenEdge]
+  pageInfo: PageInfo!
+}
+
+type TokenEdge {
+  cursor: String!
+  node: Token
+}
+
+type User implements Node {
+  _id: ID!
+  username: String
+  email: String
+  tokens(first: Int, last: Int, after: ID, before: ID): TokenConnection
+  roles(first: Int, last: Int, after: ID, before: ID): RoleConnection
+  permissions(first: Int, last: Int, after: ID, before: ID): PermissionConnection
+}
+
+type UserConnection {
+  edges: [UserEdge]
+  pageInfo: PageInfo!
+}
+
+type UserEdge {
+  cursor: String!
+  node: User
+}
+
+input UserInput {
+  email: String
+  password: String
+  roles: [String]
+}
+

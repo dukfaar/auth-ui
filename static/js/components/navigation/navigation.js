@@ -16,7 +16,7 @@ class Navigation extends React.Component {
 
 function mapStateToProps(state) {
     return {
-        permissions: state.loginData && state.loginData.user && state.loginData.user.permissions
+        permissions: state.login && state.login.user && state.login.user.permissions
     }
 }
 
@@ -31,7 +31,9 @@ function mergeProps(state, dispatch, props) {
         ...state,
         ...dispatch,
         ...props,
-        isValidLink: (link) => link.requires ? _.differenceWith(link.requires, state.permissions, (r, p) => r === p.name ).length===0 : true
+        isValidLink: (link) => {
+            return link.requires ? _.differenceWith(link.requires, state.permissions, (r, p) => r === p.name ).length===0 : true
+        }
     }
 }
 

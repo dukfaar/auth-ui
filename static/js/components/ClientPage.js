@@ -1,12 +1,14 @@
 import React from 'react'
 import axios from 'axios'
-import { connect } from 'react-redux'
 
-import { fetchClients } from '../redux/actions/client'
+import { createFragmentContainer, QueryRenderer } from 'react-relay'
+import { graphql } from 'graphql'
+
+import relayEnvironment from '../common/relay'
 
 import { Table, TableHead, TableBody, TableRow, TableCell, Card, CardContent } from 'material-ui'
 
-class Client extends React.Component {
+class _Client extends React.Component {
     render() {
         return (
             <TableRow>
@@ -17,6 +19,10 @@ class Client extends React.Component {
         )
     }
 }
+
+const Client = createFragmentContainer(_Client,
+    graphql`fragment ClientPage_client on Client { clientId clientSecret grants }`
+) 
 
 class ClientList extends React.Component {
     render() {
@@ -30,7 +36,7 @@ class ClientList extends React.Component {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {this.props.clients.map(c => <Client key={c._id} client={c}/>)}
+                    {_.map(this.props.clients.edges, n => <Client key={n.node._id} client={n.node}/>)}
                 </TableBody>
             </Table>
         )
@@ -38,28 +44,23 @@ class ClientList extends React.Component {
 }
 
 class ClientPage extends React.Component {
-    constructor(props) {
-        super(props)
-
-        this.props.fetchClients()
-    }
-
     render() {
         return (
             <Card>
                 <CardContent>
-                    <ClientList clients={this.props.clients}/>
+                    <QueryRenderer
+                        environment={relayEnvironment}
+                        query={graphql`query ClientPageListQuery { clients { edges { node { _id ...ClientPage_client } } } }`}
+                        render={({ error, props }) => {
+                            if (error) return <div>derp</div>
+                            else if (!props) return <div>loading</div>
+                            else return <ClientList clients={props.clients} />
+                        }}
+                    />
                 </CardContent>
             </Card>
         )
     }    
 }
 
-export default connect ( 
-    state => { return {
-      clients: state.clients.clients
-    } },
-    dispatch => { return {
-        fetchClients: () => dispatch(fetchClients())
-    } }
-)(ClientPage)
+export default ClientPage

@@ -1,55 +1,42 @@
 import axios from 'axios'
 import Querystring from 'query-string'
+import * as Cookies from 'js-cookie'
+
+import {graphql} from 'graphql'
+import {fetchQuery, client} from '../../common/relay'
 
 export function requestLoginData(username, password) {
-    const loginRefreshOptions = {
-        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-        auth: {
-            username: CLIENT_ID,
-            password: CLIENT_SECRET
-        }
-    }
-
     return dispatch => {
         dispatch({ type: 'REQUESTING LOGIN' })
-        return axios.post(`${AUTH_BACKEND_SERVER}/oauth/token`, 
-            Querystring.stringify({
-                username: username, 
-                password: password,
-                grant_type: 'password'
-            }),
-            loginRefreshOptions
+        return fetchQuery(
+            graphql`query actionsLoginQuery($username: String!, $password: String!, $clientId: String!, $clientSecret: String!) { login(username: $username, password: $password, clientId: $clientId, clientSecret: $clientSecret) { accessToken refreshToken } }`
+            ,{
+                username, password,
+                clientId: CLIENT_ID,
+                clientSecret: CLIENT_SECRET
+            }
         ).then(response => {
-            dispatch(receiveLoginData(response.data))  
+            dispatch(receiveLoginData(response.login))  
         }).catch(error => {
             dispatch(requestLoginDataFailed())
         })
     }
 }
 
-export function refreshAccessToken(refreshToken) {
-    const loginRefreshOptions = {
-        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-        auth: {
-            username: CLIENT_ID,
-            password: CLIENT_SECRET
-        }
-    }
-
+export function refreshAccessToken() {
     return dispatch => {
         dispatch({type: 'REFRESHING ACCESSTOKEN'})
-        return axios.post(`${AUTH_BACKEND_SERVER}/oauth/token`, 
-            Querystring.stringify({
-                refresh_token: refreshToken, 
-                grant_type: 'refresh_token'
-            }),
-            loginRefreshOptions
+        return fetchQuery(
+            graphql`query actionsRefreshQuery($token: String!, $clientId: String!, $clientSecret: String!) { refresh(refreshToken: $token, clientId: $clientId, clientSecret: $clientSecret) { accessToken refreshToken } }`
+            ,{
+                token: Cookies.get('RefreshToken'),
+                clientId: CLIENT_ID,
+                clientSecret: CLIENT_SECRET
+            }
         ).then(response => {
-            dispatch(receiveLoginData(response.data)) 
-            return response 
+            dispatch(receiveLoginData(response.refresh))  
         }).catch(error => {
             dispatch(requestLoginDataFailed())
-            throw error
         })
     }
 }
@@ -58,15 +45,10 @@ export function receiveLoginData(loginData) {
     return dispatch => {
         dispatch({ type: 'LOGIN DATA RECEIVED' })
 
-        let expiryDate = new Date() + loginData.expires_in
+        Cookies.set('Authorization', `Bearer ${loginData.accessToken}`)
+        Cookies.set('RefreshToken', loginData.refreshToken)
 
-        localStorage.setItem('accesstoken', JSON.stringify(loginData.access_token))
-        localStorage.setItem('refreshtoken', JSON.stringify(loginData.refresh_token))
-        localStorage.setItem('accesstokenvaliduntil', JSON.stringify(expiryDate))
-
-        dispatch({ type: 'SET ACCESSTOKEN', token: loginData.access_token })
-        dispatch({ type: 'SET REFRESHTOKEN', token: loginData.refresh_token })
-        dispatch({ type: 'SET LOGINEXPIRETIME', token: expiryDate })
+        client.close()
 
         return dispatch(fetchAccountData())
     }
@@ -74,18 +56,13 @@ export function receiveLoginData(loginData) {
 
 export function fetchAccountData() {
     return dispatch => {
-        dispatch({ type: 'FETCHING ACCOUNTDATA'})   
-
-        return axios.post(`${AUTH_BACKEND_SERVER}`, {
-            query: 'query { me { _id username email permissions { name } } }'
-        })
+        dispatch({ type: 'FETCHING ACCOUNTDATA'})  
+        
+        return fetchQuery(graphql`query actionsMeQuery { me { _id username email permissions { edges { node { name } } } } }`)
         .then(response => {
-            if(response.data.errors && response.data.errors[0].message === 'valid accesstoken is required') {
-                dispatch({ type: 'ACCESSTOKEN INVALID'})  
-                dispatch(refreshAccessToken(0))
-            } else {
-                dispatch({ type: 'SET USER', user: response.data.data.me })
-            }
+            let me = _.assign({}, response.me)
+            me.permissions = _.map(me.permissions.edges, e => e.node)
+            dispatch({ type: 'SET USER', user: me })
         })
         .catch(err => {
             dispatch(requestFetchAccountDataFailed())

@@ -45,7 +45,7 @@ class LoginForm extends React.Component {
                     </CardContent>
 
                     <CardActions>
-                        <Button raised color="primary" onClick={this.sendLogin}>Login</Button>
+                        <Button raised="true" color="primary" onClick={this.sendLogin}>Login</Button>
                     </CardActions>
                 </form>
             </Card>
@@ -55,8 +55,8 @@ class LoginForm extends React.Component {
 
 export default connect ( 
     state => { return {
-      user: state.loginData.user,
-      accessToken: state.loginData.accessToken
+      user: state.login && state.login.user,
+      accessToken: state.login.accessToken
     } },
     dispatch => { return {
         requestLoginData: (username, password) => dispatch(requestLoginData(username, password))

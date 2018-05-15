@@ -1,8 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import './redux/initialReducers'
-
 import './interceptors'
 
 import './services/loginService'

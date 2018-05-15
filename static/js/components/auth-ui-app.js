@@ -49,17 +49,16 @@ class AuthUiApp extends React.Component {
 
         let navLinks = [
             { href: '/', text: 'Home' },
-            { href: '/user', text: 'User', requires: [ 'user read' ] },
-            { href: '/client', text: 'Client', requires: [ 'client read'] },
-            { href: '/permission', text: 'Permission', requires: [ 'permission read'] },
-            { href: '/role', text: 'Role', requires: [ 'role read'] }
+            { href: '/user', text: 'User', requires: ['user'] },
+            { href: '/client', text: 'Client', requires: ['client'] },
+            { href: '/permission', text: 'Permission', requires: ['permission'] },
+            { href: '/role', text: 'Role', requires: ['role'] }
         ]
 
         if(!loggedIn) navLinks.push({ href: '/login', text: 'Login' })
 
         return (
             <MuiThemeProvider theme={theme}>
-                <Reboot />
                 <ConnectedRouter history={history}>
                     <div className={classes.appFrame}>
                         <Drawer variant="permanent" classes={{paper: classes.drawer}} anchor="left">
@@ -80,7 +79,7 @@ class AuthUiApp extends React.Component {
 
 export default connect ( 
     state => { return {
-      user: state.loginData.user,
+      user: state.login && state.login.user,
     } },
     dispatch => { return {
     } }
