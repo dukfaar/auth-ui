@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { List } from 'material-ui'
+import { List } from '@material-ui/core'
 
 import NavigationLink from './navigationLink'
 

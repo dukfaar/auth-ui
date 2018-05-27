@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 
 import { requestLoginData } from '../redux/login/actions'
 
-import { TextField, Card, CardContent, CardActions, Button, Grid } from 'material-ui'
+import { TextField, Card, CardContent, CardActions, Button, Grid } from '@material-ui/core'
 
 class LoginForm extends React.Component {
     constructor(props) {

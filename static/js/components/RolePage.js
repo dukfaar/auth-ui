@@ -1,31 +1,37 @@
 import React from 'react'
-import axios from 'axios'
-import { graphql, QueryRenderer, createFragmentContainer, createRefetchContainer, commitMutation, requestSubscription } from 'react-relay'
+
+import { 
+    graphql, 
+    QueryRenderer, 
+    createFragmentContainer, 
+    createRefetchContainer, 
+    commitMutation, 
+    requestSubscription 
+} from 'react-relay'    
 
 import relayEnvironment from '../common/relay'
 
-import { Table, TableHead, TableBody, TableRow, TableCell, Card, CardContent, TextField, Button } from 'material-ui'
+import { 
+    Table,
+    TableHead, 
+    TableBody, 
+    TableRow, 
+    TableCell, 
+    Card, 
+    CardContent, 
+    TextField, 
+    Button,
+    Chip,
+    Dialog,
+    DialogTitle, 
+    DialogActions, 
+    DialogContent
+} from '@material-ui/core'
 
-import Dialog, {
-    DialogTitle, DialogActions, DialogContent
-} from 'material-ui/Dialog'
+import Role from './Role/Role'
 
-class _Role extends React.Component {
-    render() {
-        return (
-            <TableRow>
-                <TableCell>{this.props.role.name}</TableCell>
-                <TableCell>{_.join(_.map(this.props.role.permissions.edges, e => e.node.name), ', ')}</TableCell>
-            </TableRow>
-        )
-    }
-}
-
-const Role = createFragmentContainer(_Role,
-    graphql`fragment RolePage_role on Role { name permissions { edges { node { name } } } }`
-) 
-
-const roleCreatedSubscription = graphql`subscription RolePageRoleCreatedSubscription { roleCreated { _id name } }`
+const roleCreatedSubscription = graphql`subscription RolePageRoleCreatedSubscription { roleCreated { _id name permissions { edges { node { _id name }}} } }`
+const roleUpdatedSubscription = graphql`subscription RolePageRoleUpdatedSubscription { roleUpdated { _id name permissions { edges { node { _id name }}} } }`
 
 class _RoleList extends React.Component {
     componentDidMount() {
@@ -38,10 +44,20 @@ class _RoleList extends React.Component {
                 }
             }
         )
+        /*this.updatedSubscription = requestSubscription(relayEnvironment,
+            {
+                subscription: roleUpdatedSubscription,
+                variables: {},
+                onNext: role => {
+                    this.props.relay.refetch({}, null, null, { force: true })
+                }
+            }
+        )*/
     }
 
     componentWillUnmount() {
         this.createdSubscription.dispose()
+        //this.updatedSubscription.dispose()
     }
 
     render() {
@@ -54,18 +70,22 @@ class _RoleList extends React.Component {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {_.map(this.props.roles.edges, e => <Role key={e.node._id} role={e.node}/>)}
+                    {_.map(this.props.roles.edges, e => <Role key={e.node._id} role={e.node} permissions={this.props.permissions}/>)}
                 </TableBody>
             </Table>
         )
     }
 }
 
-const RolePageRolesQuery = graphql`query RolePageQuery { roles { ...RolePage_roles } }`
+const RolePageQuery = graphql`query RolePageQuery { roles { ...RolePage_roles } permissions { ...RolePage_permissions } }`
+const RolePageRolesQuery = graphql`query RolePageRolesQuery { roles { ...RolePage_roles } }`
 
 const RoleList = createRefetchContainer(
     _RoleList,
-    graphql`fragment RolePage_roles on RoleConnection { edges { node { _id ...RolePage_role } } }`,
+    { 
+        roles: graphql`fragment RolePage_roles on RoleConnection { edges { node { _id ...Role_role } } }`,
+        permissions: graphql`fragment RolePage_permissions on PermissionConnection { edges { node { _id name } } }`,
+    },
     RolePageRolesQuery
 )
 
@@ -108,11 +128,11 @@ class RolePage extends React.Component {
                 <CardContent>
                     <QueryRenderer
                         environment={relayEnvironment}
-                        query={RolePageRolesQuery}
+                        query={RolePageQuery}
                         render={({ error, props }) => {
                             if (error) return <div>derp</div>
                             else if (!props) return <div>loading</div>
-                            else return <RoleList roles={props.roles} />
+                            else return <RoleList roles={props.roles} permissions={props.permissions} />
                         }}
                         />
                 </CardContent>

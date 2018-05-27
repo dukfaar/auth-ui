@@ -20,12 +20,12 @@ import {
     Card,
     CardContent,
     Button,
-    TextField
-} from 'material-ui'
-
-import Dialog, {
-    DialogTitle, DialogActions, DialogContent
-} from 'material-ui/Dialog'
+    TextField,
+    Dialog,
+    DialogTitle, 
+    DialogActions, 
+    DialogContent
+} from '@material-ui/core'
 
 let createPermissionMutation = graphql`mutation PermissionPageCreatePermissionMutation($name: String!) { createPermission(name: $name) { _id name } }`
 

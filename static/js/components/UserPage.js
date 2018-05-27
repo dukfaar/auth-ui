@@ -4,9 +4,8 @@ import { QueryRenderer, createFragmentContainer } from 'react-relay'
 import { graphql } from 'graphql'
 import relayEnvironment from '../common/relay'
 
-import { Table, TableHead, TableBody, TableRow, TableCell, Card, CardContent, Grid, Collapse, List, ListItem, ListItemText, ListItemIcon, TextField, Icon } from 'material-ui'
+import { Table, TableHead, TableBody, TableRow, TableCell, Card, CardContent, Grid, Collapse, List, ListItem, ListItemText, ListItemIcon, TextField, Icon } from '@material-ui/core'
 import withUserPermissions from '../common/withUserPermissions'
-import { create } from 'domain';
 
 class _UserPermission extends React.Component {
     render() {

@@ -5,10 +5,8 @@ import Navigation from 'navigation/navigation'
 
 import { ConnectedRouter } from 'react-router-redux'
 
-import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles'
-import { Drawer, Button, Reboot } from 'material-ui'
-
-import { withStyles } from 'material-ui/styles'
+import { MuiThemeProvider, createMuiTheme, withStyles } from '@material-ui/core/styles'
+import { Drawer, Button, Reboot } from '@material-ui/core'
 
 import { store, history } from '../redux/store'
 

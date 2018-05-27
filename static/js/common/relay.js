@@ -28,9 +28,9 @@ let gatewayLink = ApolloLink.from([
 const setupSubscriptionClient = (operation, variables, cacheConfig, observer) => {
     let subscription = client.request({query: operation.text, variables})
     .subscribe({
-        onNext: observer.onNext,
-        onError: observer.onError,
-        onComplete: observer.onCompleted
+        next: observer.onNext,
+        error: observer.onError,
+        complete: observer.onCompleted
     })
 
     return {

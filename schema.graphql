@@ -16,21 +16,27 @@ type ClientEdge {
   node: Client
 }
 
+input ClientInput {
+  clientId: String
+  clientSecret: String
+  grants: [String]
+}
+
 scalar Date
 
 type Mutation {
   createClient(clientId: String!, clientSecret: String!): Client
-  updateClient(clientId: String!, clientSecret: String, grants: [String]): Client
-  deleteClient(clientId: String!): Client
+  updateClient(id: ID!, input: ClientInput!): Client
+  deleteClient(id: ID!): Client
   createUser(username: String!, email: String!, password: String!): User
-  updateUser(username: String!, user: UserInput): User
-  deleteUser(username: String!): User
+  updateUser(id: ID!, input: UserInput!): User
+  deleteUser(id: ID!): User
   createPermission(name: String!): Permission
-  updatePermission(name: String!, permission: PermissionInput): Permission
-  deletePermissionByName(name: String!): Permission
+  updatePermission(id: ID!, input: PermissionInput!): Permission
+  deletePermissionByName(id: ID!): Permission
   createRole(name: String!): Role
-  updateRole(name: String!, role: RoleInput): Role
-  deleteRole(name: String!): Role
+  updateRole(id: ID!, input: RoleInput!): Role
+  deleteRole(id: ID!): Role
   registerTypeForPermissions(name: String!, fields: [String]!): [Permission]
 }
 
@@ -75,7 +81,7 @@ type Query {
   refresh(refreshToken: String!, clientId: String!, clientSecret: String!): Token
   userByAccessToken(accessToken: String!): User
   user(id: ID!): User
-  testNotify: String
+  role(id: ID!): Role
 }
 
 type Role implements Node {
@@ -101,8 +107,17 @@ input RoleInput {
 
 type Subscription {
   permissionCreated: Permission
+  permissionUpdated: Permission
+  permissionDeleted: Permission
   roleCreated: Role
-  testSubscription: String
+  roleUpdated: Role
+  roleDeleted: Role
+  userCreated: User
+  userUpdated: User
+  userDeleted: User
+  clientCreated: Client
+  clientUpdated: Client
+  clientDeleted: Client
 }
 
 type Token implements Node {

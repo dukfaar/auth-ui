@@ -6,7 +6,7 @@ import { graphql } from 'graphql'
 
 import relayEnvironment from '../common/relay'
 
-import { Table, TableHead, TableBody, TableRow, TableCell, Card, CardContent } from 'material-ui'
+import { Table, TableHead, TableBody, TableRow, TableCell, Card, CardContent } from '@material-ui/core'
 
 class _Client extends React.Component {
     render() {

@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Link } from 'react-router-dom'
 
-import { ListItem } from 'material-ui'
+import { ListItem } from '@material-ui/core'
 
 const NavigationLink = ({link}) => (<Link to={link.href}><ListItem button>{link.text}</ListItem></Link>)
 
