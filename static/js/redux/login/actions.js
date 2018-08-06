@@ -45,7 +45,7 @@ export function receiveLoginData(loginData) {
     return dispatch => {
         dispatch({ type: 'LOGIN DATA RECEIVED' })
 
-        Cookies.set('Authorization', `Bearer ${loginData.accessToken}`)
+        Cookies.set('Authentication', `Bearer ${loginData.accessToken}`)
         Cookies.set('RefreshToken', loginData.refreshToken)
 
         client.close()
