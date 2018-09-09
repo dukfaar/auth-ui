@@ -1,8 +1,6 @@
 import React from 'react'
-import axios from 'axios'
 
-import { createFragmentContainer, QueryRenderer } from 'react-relay'
-import { graphql } from 'graphql'
+import { createFragmentContainer, QueryRenderer, graphql } from 'react-relay'
 
 import relayEnvironment from '../common/relay'
 

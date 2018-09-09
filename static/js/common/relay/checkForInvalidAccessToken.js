@@ -7,6 +7,7 @@ export default onError(({operation, response, graphQLErrors, networkError}) => {
     let tokenError = graphQLErrors && _.find(graphQLErrors, e => e.message === 'valid accesstoken is required')
 
     if(tokenError) {
+        console.log(tokenError)
         return store.dispatch(refreshAccessToken())
     }
 

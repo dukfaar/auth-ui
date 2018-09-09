@@ -1,7 +1,6 @@
 import React from 'react'
 import * as _ from 'lodash'
-import { QueryRenderer, createFragmentContainer } from 'react-relay'
-import { graphql } from 'graphql'
+import { QueryRenderer, createFragmentContainer, graphql } from 'react-relay'
 import relayEnvironment from '../common/relay'
 
 import { Table, TableHead, TableBody, TableRow, TableCell, Card, CardContent, Grid, Collapse, List, ListItem, ListItemText, ListItemIcon, TextField, Icon } from '@material-ui/core'

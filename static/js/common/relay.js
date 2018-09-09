@@ -3,10 +3,10 @@ import {
     Network,
     RecordSource,
     Store,
-    fetchQuery as runtimeFetchQuery
+    fetchQuery as runtimeFetchQuery,
 } from 'relay-runtime'
 
-import {parse} from 'graphql'
+import { parse } from 'graphql'
 
 import { SubscriptionClient, Middleware } from 'subscriptions-transport-ws/dist/client'
 import { WebSocketLink } from 'apollo-link-ws'

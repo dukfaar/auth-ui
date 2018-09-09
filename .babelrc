@@ -1,13 +1,14 @@
 {
     "plugins": [
+        "@babel/plugin-proposal-class-properties",
         "relay"
     ],
     "presets":[
-        ["env", {
+        ["@babel/preset-env", {
             "targets": {
                 "chrome": "52"    
             }
         }]
-        , "react", "stage-2"
+        , "@babel/preset-react"
     ]
 }

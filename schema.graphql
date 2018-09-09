@@ -1,19 +1,19 @@
-type Client implements Node {
-  _id: ID!
-  clientId: String
-  clientSecret: String
-  grants: [String]
-  tokens(first: Int, last: Int, after: ID, before: ID): TokenConnection
+type Client {
+  _id: ID! @deprecated
+  clientId: String @deprecated
+  clientSecret: String @deprecated
+  grants: [String] @deprecated
+  tokens(after: ID, before: ID, first: Int, last: Int): TokenConnection @deprecated
 }
 
 type ClientConnection {
-  edges: [ClientEdge]
-  pageInfo: PageInfo!
+  edges: [ClientEdge] @deprecated
+  pageInfo: PageInfo! @deprecated
 }
 
 type ClientEdge {
-  cursor: String!
-  node: Client
+  cursor: String! @deprecated
+  node: Client @deprecated
 }
 
 input ClientInput {
@@ -22,48 +22,68 @@ input ClientInput {
   grants: [String]
 }
 
+# The `Date` scalar type represents a Date.
 scalar Date
 
-type Mutation {
-  createClient(clientId: String!, clientSecret: String!): Client
-  updateClient(id: ID!, input: ClientInput!): Client
-  deleteClient(id: ID!): Client
-  createUser(username: String!, email: String!, password: String!): User
-  updateUser(id: ID!, input: UserInput!): User
-  deleteUser(id: ID!): User
-  createPermission(name: String!): Permission
-  updatePermission(id: ID!, input: PermissionInput!): Permission
-  deletePermissionByName(id: ID!): Permission
-  createRole(name: String!): Role
-  updateRole(id: ID!, input: RoleInput!): Role
-  deleteRole(id: ID!): Role
-  registerTypeForPermissions(name: String!, fields: [String]!): [Permission]
+type Leve {
+  _id: ID @deprecated
+  level: Int @deprecated
+  name: String @deprecated
+  xivdbid: String @deprecated
+  xp: Int @deprecated
 }
 
-interface Node {
-  _id: ID!
+type LeveConnection {
+  edges: [LeveEdge] @deprecated
+  pageInfo: PageInfo! @deprecated
+  totalCount: Int @deprecated
+}
+
+type LeveEdge {
+  cursor: ID! @deprecated
+  node: Leve @deprecated
+}
+
+type Mutation {
+  createClient(clientId: String!, clientSecret: String!): Client @deprecated
+  createPermission(name: String!): Permission @deprecated
+  createRole(name: String!): Role @deprecated
+  createUser(username: String!, email: String!, password: String!): User @deprecated
+  deleteClient(id: ID!): Client @deprecated
+  deletePermissionByName(id: ID!): Permission @deprecated
+  deleteRole(id: ID!): Role @deprecated
+  deleteUser(id: ID!): User @deprecated
+  importLeves: Boolean @deprecated
+  registerMutation(name: String!): Permission @deprecated
+  registerQuery(name: String!): Permission @deprecated
+  registerSubscription(name: String!): Permission @deprecated
+  registerTypeForPermissions(name: String!, fields: [String]!): [Permission] @deprecated
+  updateClient(id: ID!, input: ClientInput!): Client @deprecated
+  updatePermission(input: PermissionInput!, id: ID!): Permission @deprecated
+  updateRole(id: ID!, input: RoleInput!): Role @deprecated
+  updateUser(id: ID!, input: UserInput!): User @deprecated
 }
 
 type PageInfo {
-  hasNextPage: Boolean
-  hasPreviousPage: Boolean
-  startCursor: String
-  endCursor: String
+  endCursor: ID @deprecated
+  hasNextPage: Boolean @deprecated
+  hasPreviousPage: Boolean @deprecated
+  startCursor: ID @deprecated
 }
 
-type Permission implements Node {
-  _id: ID!
-  name: String!
+type Permission {
+  _id: ID! @deprecated
+  name: String! @deprecated
 }
 
 type PermissionConnection {
-  edges: [PermissionEdge]
-  pageInfo: PageInfo!
+  edges: [PermissionEdge] @deprecated
+  pageInfo: PageInfo! @deprecated
 }
 
 type PermissionEdge {
-  cursor: String!
-  node: Permission
+  cursor: String! @deprecated
+  node: Permission @deprecated
 }
 
 input PermissionInput {
@@ -71,33 +91,36 @@ input PermissionInput {
 }
 
 type Query {
-  clients(first: Int, last: Int, after: ID, before: ID): ClientConnection
-  users(first: Int, last: Int, after: ID, before: ID): UserConnection
-  tokens(first: Int, last: Int, after: ID, before: ID): TokenConnection
-  permissions(first: Int, last: Int, after: ID, before: ID): PermissionConnection
-  roles(first: Int, last: Int, after: ID, before: ID): RoleConnection
-  me: User
-  login(username: String!, password: String!, clientId: String!, clientSecret: String!): Token
-  refresh(refreshToken: String!, clientId: String!, clientSecret: String!): Token
-  userByAccessToken(accessToken: String!): User
-  user(id: ID!): User
-  role(id: ID!): Role
+  clientlogin(clientId: String!, clientSecret: String!): Token @deprecated
+  clients(after: ID, before: ID, first: Int, last: Int): ClientConnection @deprecated
+  leve(id: ID!): Leve! @deprecated
+  leves(first: Int, last: Int, before: String, after: String): LeveConnection! @deprecated
+  login(username: String!, password: String!, clientId: String!, clientSecret: String!): Token @deprecated
+  me: User @deprecated
+  permissions(first: Int, last: Int, after: ID, before: ID): PermissionConnection @deprecated
+  refresh(refreshToken: String!, clientId: String!, clientSecret: String!): Token @deprecated
+  role(id: ID!): Role @deprecated
+  roles(after: ID, before: ID, first: Int, last: Int): RoleConnection @deprecated
+  tokens(first: Int, last: Int, after: ID, before: ID): TokenConnection @deprecated
+  user(id: ID!): User @deprecated
+  userByAccessToken(accessToken: String!): User @deprecated
+  users(first: Int, last: Int, after: ID, before: ID): UserConnection @deprecated
 }
 
-type Role implements Node {
-  _id: ID!
-  name: String!
-  permissions(first: Int, last: Int, after: ID, before: ID): PermissionConnection
+type Role {
+  _id: ID! @deprecated
+  name: String! @deprecated
+  permissions(first: Int, last: Int, after: ID, before: ID): PermissionConnection @deprecated
 }
 
 type RoleConnection {
-  edges: [RoleEdge]
-  pageInfo: PageInfo!
+  edges: [RoleEdge] @deprecated
+  pageInfo: PageInfo! @deprecated
 }
 
 type RoleEdge {
-  cursor: String!
-  node: Role
+  cursor: String! @deprecated
+  node: Role @deprecated
 }
 
 input RoleInput {
@@ -106,64 +129,64 @@ input RoleInput {
 }
 
 type Subscription {
-  permissionCreated: Permission
-  permissionUpdated: Permission
-  permissionDeleted: Permission
-  roleCreated: Role
-  roleUpdated: Role
-  roleDeleted: Role
-  userCreated: User
-  userUpdated: User
-  userDeleted: User
-  clientCreated: Client
-  clientUpdated: Client
-  clientDeleted: Client
+  clientCreated: Client @deprecated
+  clientDeleted: Client @deprecated
+  clientUpdated: Client @deprecated
+  permissionCreated: Permission @deprecated
+  permissionDeleted: Permission @deprecated
+  permissionUpdated: Permission @deprecated
+  roleCreated: Role @deprecated
+  roleDeleted: Role @deprecated
+  roleUpdated: Role @deprecated
+  userCreated: User @deprecated
+  userDeleted: User @deprecated
+  userUpdated: User @deprecated
 }
 
-type Token implements Node {
-  _id: ID!
-  clientId: String
-  client: Client
-  userId: String
-  user: User
-  accessToken: String
-  refreshToken: String
-  accessTokenExpiresAt: Date
-  refreshTokenExpiresAt: Date
+type Token {
+  _id: ID! @deprecated
+  accessToken: String @deprecated
+  accessTokenExpiresAt: Date @deprecated
+  client: Client @deprecated
+  clientId: String @deprecated
+  refreshToken: String @deprecated
+  refreshTokenExpiresAt: Date @deprecated
+  user: User @deprecated
+  userId: String @deprecated
 }
 
 type TokenConnection {
-  edges: [TokenEdge]
-  pageInfo: PageInfo!
+  edges: [TokenEdge] @deprecated
+  pageInfo: PageInfo! @deprecated
 }
 
 type TokenEdge {
-  cursor: String!
-  node: Token
+  cursor: String! @deprecated
+  node: Token @deprecated
 }
 
-type User implements Node {
-  _id: ID!
-  username: String
-  email: String
-  tokens(first: Int, last: Int, after: ID, before: ID): TokenConnection
-  roles(first: Int, last: Int, after: ID, before: ID): RoleConnection
-  permissions(first: Int, last: Int, after: ID, before: ID): PermissionConnection
+type User {
+  _id: ID! @deprecated
+  email: String @deprecated
+  permissions(first: Int, last: Int, after: ID, before: ID): PermissionConnection @deprecated
+  roles(first: Int, last: Int, after: ID, before: ID): RoleConnection @deprecated
+  tokens(first: Int, last: Int, after: ID, before: ID): TokenConnection @deprecated
+  username: String @deprecated
 }
 
 type UserConnection {
-  edges: [UserEdge]
-  pageInfo: PageInfo!
+  edges: [UserEdge] @deprecated
+  pageInfo: PageInfo! @deprecated
 }
 
 type UserEdge {
-  cursor: String!
-  node: User
+  cursor: String! @deprecated
+  node: User @deprecated
 }
 
 input UserInput {
-  email: String
   password: String
   roles: [String]
+  email: String
 }
 

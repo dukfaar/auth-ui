@@ -1,9 +1,7 @@
-import axios from 'axios'
-import Querystring from 'query-string'
 import * as Cookies from 'js-cookie'
 
-import {graphql} from 'graphql'
-import {fetchQuery, client} from '../../common/relay'
+import { graphql } from 'react-relay'
+import { fetchQuery, client } from '../../common/relay'
 
 export function requestLoginData(username, password) {
     return dispatch => {
