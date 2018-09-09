@@ -7,13 +7,13 @@ import UserPage from 'UserPage'
 import ClientPage from 'ClientPage'
 import RolePage from 'RolePage'
 import PermissionPage from 'PermissionPage'
-import LevePage from '../LevePage'
+import LevePage from '../LevePage'  
 
 export class Routes extends React.Component {
     render() {
         return (
             <div>
-                <Route exact path="/" component={Home}/>                  
+                <Route exact path="/" component={Home}/>
                 <Route path="/login" component={LoginForm}/>
                 <Route path="/user" component={UserPage}/>  
                 <Route path="/client" component={ClientPage}/>  

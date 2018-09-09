@@ -3,7 +3,7 @@ type Client {
   clientId: String @deprecated
   clientSecret: String @deprecated
   grants: [String] @deprecated
-  tokens(after: ID, before: ID, first: Int, last: Int): TokenConnection @deprecated
+  tokens(last: Int, after: ID, before: ID, first: Int): TokenConnection @deprecated
 }
 
 type ClientConnection {
@@ -27,6 +27,8 @@ scalar Date
 
 type Leve {
   _id: ID @deprecated
+  class: String @deprecated
+  gil: Int @deprecated
   level: Int @deprecated
   name: String @deprecated
   xivdbid: String @deprecated
@@ -48,7 +50,7 @@ type Mutation {
   createClient(clientId: String!, clientSecret: String!): Client @deprecated
   createPermission(name: String!): Permission @deprecated
   createRole(name: String!): Role @deprecated
-  createUser(username: String!, email: String!, password: String!): User @deprecated
+  createUser(password: String!, username: String!, email: String!): User @deprecated
   deleteClient(id: ID!): Client @deprecated
   deletePermissionByName(id: ID!): Permission @deprecated
   deleteRole(id: ID!): Role @deprecated
@@ -92,19 +94,19 @@ input PermissionInput {
 
 type Query {
   clientlogin(clientId: String!, clientSecret: String!): Token @deprecated
-  clients(after: ID, before: ID, first: Int, last: Int): ClientConnection @deprecated
+  clients(first: Int, last: Int, after: ID, before: ID): ClientConnection @deprecated
   leve(id: ID!): Leve! @deprecated
-  leves(first: Int, last: Int, before: String, after: String): LeveConnection! @deprecated
-  login(username: String!, password: String!, clientId: String!, clientSecret: String!): Token @deprecated
+  leves(before: String, after: String, first: Int, last: Int): LeveConnection! @deprecated
+  login(clientSecret: String!, username: String!, password: String!, clientId: String!): Token @deprecated
   me: User @deprecated
-  permissions(first: Int, last: Int, after: ID, before: ID): PermissionConnection @deprecated
+  permissions(after: ID, before: ID, first: Int, last: Int): PermissionConnection @deprecated
   refresh(refreshToken: String!, clientId: String!, clientSecret: String!): Token @deprecated
   role(id: ID!): Role @deprecated
-  roles(after: ID, before: ID, first: Int, last: Int): RoleConnection @deprecated
-  tokens(first: Int, last: Int, after: ID, before: ID): TokenConnection @deprecated
+  roles(last: Int, after: ID, before: ID, first: Int): RoleConnection @deprecated
+  tokens(after: ID, before: ID, first: Int, last: Int): TokenConnection @deprecated
   user(id: ID!): User @deprecated
   userByAccessToken(accessToken: String!): User @deprecated
-  users(first: Int, last: Int, after: ID, before: ID): UserConnection @deprecated
+  users(before: ID, first: Int, last: Int, after: ID): UserConnection @deprecated
 }
 
 type Role {
@@ -124,8 +126,8 @@ type RoleEdge {
 }
 
 input RoleInput {
-  name: String
   permissions: [String]
+  name: String
 }
 
 type Subscription {
@@ -170,7 +172,7 @@ type User {
   email: String @deprecated
   permissions(first: Int, last: Int, after: ID, before: ID): PermissionConnection @deprecated
   roles(first: Int, last: Int, after: ID, before: ID): RoleConnection @deprecated
-  tokens(first: Int, last: Int, after: ID, before: ID): TokenConnection @deprecated
+  tokens(last: Int, after: ID, before: ID, first: Int): TokenConnection @deprecated
   username: String @deprecated
 }
 
@@ -185,8 +187,8 @@ type UserEdge {
 }
 
 input UserInput {
+  email: String
   password: String
   roles: [String]
-  email: String
 }
 

@@ -13,16 +13,27 @@ class _Leve extends React.Component {
                 <TableCell>{this.props.leve.name}</TableCell>
                 <TableCell>{this.props.leve.xp}</TableCell>
                 <TableCell>{this.props.leve.level}</TableCell>
+                <TableCell>{this.props.leve.class}</TableCell>
+                <TableCell>{this.props.leve.gil}</TableCell>
             </TableRow>
         )
     }
 }
 
 const Leve = createFragmentContainer(_Leve,
-    graphql`fragment LevePage_leve on Leve { name xp level }`
+    graphql`fragment LevePage_leve on Leve { name xp level gil class }`
 ) 
 
 class LeveList extends React.Component {
+    constructor(props) {
+      super(props)
+
+      this.state = {
+        minLevel: 15,
+        maxLevel: 20
+      }
+    }
+
     render() {
         return (
             <Table>
@@ -31,10 +42,21 @@ class LeveList extends React.Component {
                         <TableCell>Name</TableCell>
                         <TableCell>XP</TableCell>
                         <TableCell>Level</TableCell>
+                        <TableCell>Class</TableCell>
+                        <TableCell>Gil</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {_.map(this.props.leves.edges, n => <Leve key={n.node._id} leve={n.node}/>)}
+                    {_.map(
+                      _.sortBy(
+                        _.filter(
+                          this.props.leves.edges,
+                          n => n.node.level >= this.state.minLevel && n.node.level <= this.state.maxLevel && n.node.xp > 0
+                        ), 
+                        n => n.node.level
+                      ),
+                      n => <Leve key={n.node._id} leve={n.node}/>)
+                    }
                 </TableBody>
             </Table>
         )
@@ -48,7 +70,7 @@ class LevePage extends React.Component {
                 <CardContent>
                     <QueryRenderer
                         environment={relayEnvironment}
-                        query={graphql`query LevePageListQuery { leves { edges { node { _id ...LevePage_leve } } } }`}
+                        query={graphql`query LevePageListQuery { leves { edges { node { _id level xp ...LevePage_leve } } } }`}
                         render={({ error, props }) => {
                             if (error) return <div>derp</div>
                             else if (!props) return <div>loading</div>
