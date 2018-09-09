@@ -16,7 +16,8 @@ module.exports = {
     mode:  isProduction() ? 'production' : 'development',
     target: 'web',
     devServer: {
-        contentBase: './static'
+        contentBase: './static',
+        historyApiFallback: true
     },
     entry: {
         app: './static/js/index.js'
