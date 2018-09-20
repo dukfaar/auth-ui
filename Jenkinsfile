@@ -6,7 +6,7 @@ pipeline {
     agent {
         docker {
             image 'node:8-alpine'
-            args "-v static_www:${mountTarget}"
+            args "-v static_www:/static_www"
         }
     }
     stages {
