@@ -2,6 +2,10 @@ pipeline {
     environment {
         mountTarget = "/static_www"
         baseDir = "/static_www/auth"
+        CLIENT_ID = credentials('CLIENT_ID')
+        CLIENT_SECRET = credentials('CLIENT_SECRET')
+        API_GATEWAY_URL = credentials('API_GATEWAY_URL')
+        API_GATEWAY_WS = credentialsAPI_GATEWAY_WS
     }
     agent {
         docker {
