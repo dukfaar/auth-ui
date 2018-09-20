@@ -1,7 +1,7 @@
 pipeline {
     environment {
         mountTarget = "/static_www"
-        baseDir = "${mountTarget}/auth"
+        baseDir = "/static_www/auth"
     }
     agent {
         docker {
