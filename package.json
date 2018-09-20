@@ -42,14 +42,10 @@
     "redux-thunk": "latest",
     "style-loader": "^0.20.2",
     "typeface-roboto": "^0.0.54",
-    "graphql": "^14.0.2"
-  },
-  "devDependencies": {
-    "cross-env": "^5.1.5",
+    "graphql": "^14.0.2",
     "webpack": "^4.17.2",
-    "webpack-dev-server": "^3.1.8",
-    "uglifyjs-webpack-plugin": "^2.0.1",
     "webpack-cli": "^3.1.0",
+    "uglifyjs-webpack-plugin": "^2.0.1",
     "babel-plugin-relay": "^1.6.2",
     "relay-compiler": "^1.6.2",
     "@babel/core": "^7.0.0",
@@ -58,7 +54,11 @@
     "@babel/preset-react": "^7.0.0",
     "@babel/preset-stage-2": "^7.0.0",
     "@babel/plugin-proposal-class-properties": "^7.0.0",
-    "get-graphql-schema": "^2.1.1",
     "sockjs-client": "^1.1.5"
+  },
+  "devDependencies": {
+    "cross-env": "^5.1.5",
+    "webpack-dev-server": "^3.1.8",
+    "get-graphql-schema": "^2.1.1"
   }
 }
