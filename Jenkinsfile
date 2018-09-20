@@ -11,18 +11,24 @@ pipeline {
     }
     stages {
         stage('Install') {
-            sh 'npm install'
+            steps {
+                sh 'npm install'
+            }
         }
 
         /*
         stage('Test') {
-            sh 'npm run test'
+            steps {
+                sh 'npm run test'
+            }
         }
         */
 
         stage('Build') {
-            sh 'npm run build'
-            sh 'ls ./bundle'
+            steps {
+                sh 'npm run build'
+                sh 'ls ./bundle'
+            }
         }
 
         stage('Copy to www_dir') {
