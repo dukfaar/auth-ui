@@ -1,7 +1,7 @@
 pipeline {
     environment {
         mountTarget = "/static_www"
-        baseDir = "/static_www/auth"
+        baseDir = "/static_www"
         CLIENT_ID = credentials('CLIENT_ID')
         CLIENT_SECRET = credentials('CLIENT_SECRET')
         API_GATEWAY_URL = credentials('API_GATEWAY_URL')
@@ -44,7 +44,7 @@ pipeline {
         stage('Copy to www_dir') {
             steps {
                 sh "mkdir -p ${baseDir}"
-                sh "cp static/index.html ${baseDir}/index.html"
+                sh "cp -R static/* ${baseDir}/"
                 sh "cp -R bundle/* ${baseDir}/"
             }
         }
