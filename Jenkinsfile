@@ -41,7 +41,7 @@ pipeline {
             steps {
                 sh "mkdir ${baseDir}"
                 sh "cp static/index.html ${baseDir}/index.html"
-                sh "cp bundle/* ${baseDir}/"
+                sh "cp -R bundle/* ${baseDir}/"
                 sh "ls ${baseDir}"
             }
         }
