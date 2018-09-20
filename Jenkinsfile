@@ -33,7 +33,6 @@ pipeline {
         stage('Build') {
             steps {
                 sh 'npm run build'
-                sh 'ls ./bundle'
             }
         }
 
@@ -42,7 +41,6 @@ pipeline {
                 sh "mkdir -p ${baseDir}"
                 sh "cp static/index.html ${baseDir}/index.html"
                 sh "cp -R bundle/* ${baseDir}/"
-                sh "ls ${baseDir}"
             }
         }
     }
