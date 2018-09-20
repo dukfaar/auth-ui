@@ -1,10 +1,11 @@
 const path = require('path')
 const webpack = require('webpack')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 const modulePaths = [
     path.join(__dirname, "node_modules"),
-    path.join(__dirname, "static/js"),
-    path.join(__dirname, "static/js/components"),      
+    path.join(__dirname, "src"),
+    path.join(__dirname, "src/components"),      
     '/'   
 ]
 
@@ -12,15 +13,54 @@ function isProduction() {
     return process.env.NODE_ENV === 'production'
 }
 
+function getDefinePlugin() {
+    return new webpack.DefinePlugin({
+        'API_GATEWAY_URL': JSON.stringify(process.env.API_GATEWAY_URL),
+        'API_GATEWAY_WS': JSON.stringify(process.env.API_GATEWAY_WS),
+        'CLIENT_ID': JSON.stringify(process.env.CLIENT_ID),
+        'CLIENT_SECRET': JSON.stringify(process.env.CLIENT_SECRET)
+    })
+}
+
+function getUglifyPlugin() {
+    return new UglifyJsPlugin({
+        parallel: true,
+        uglifyOptions: { 
+            ecma: 8,
+            compress: {
+                drop_console: true,
+                unsafe_proto: true,
+            },
+            output: {
+                comments: false,
+                beautify: false,
+            }
+        }
+    })
+}
+
+function getProductionPlugins() {
+    return [
+        getDefinePlugin(),
+        getUglifyPlugin()
+    ]
+}
+
+function getDevPlugins() {
+    return [
+        getDefinePlugin()
+    ]
+}
+
 module.exports = {
     mode:  isProduction() ? 'production' : 'development',
     target: 'web',
     devServer: {
-        contentBase: './static',
+        contentBase: './src',
         historyApiFallback: true
     },
     entry: {
-        app: './static/js/index.js'
+        app: './src/index.js'
     },
     output: {
         path: path.join(__dirname, 'bundle'),
@@ -51,14 +91,5 @@ module.exports = {
             }
         }
     },
-    plugins: [
-        new webpack.DefinePlugin({
-            'API_GATEWAY_URL': JSON.stringify(process.env.API_GATEWAY_URL),
-            'API_GATEWAY_WS': JSON.stringify(process.env.API_GATEWAY_WS),
-            'CLIENT_ID': JSON.stringify(process.env.CLIENT_ID),
-            'CLIENT_SECRET': JSON.stringify(process.env.CLIENT_SECRET)
-        }),
-        
-        //new webpack.optimize.UglifyJsPlugin({})
-    ]
+    plugins: isProduction() ? getProductionPlugins() : getDevPlugins()
   }

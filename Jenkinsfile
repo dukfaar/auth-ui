@@ -6,6 +6,7 @@ pipeline {
         CLIENT_SECRET = credentials('CLIENT_SECRET')
         API_GATEWAY_URL = credentials('API_GATEWAY_URL')
         API_GATEWAY_WS = credentials('API_GATEWAY_WS')
+        NODE_ENV = 'production'
     }
     agent {
         docker {

@@ -5,9 +5,8 @@
     ],
     "presets":[
         ["@babel/preset-env", {
-            "targets": {
-                "chrome": "52"    
-            }
+            "useBuiltIns": "entry",
+            "targets": "> 0.25%, not dead"
         }]
         , "@babel/preset-react"
     ]
