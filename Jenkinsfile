@@ -39,7 +39,7 @@ pipeline {
 
         stage('Copy to www_dir') {
             steps {
-                sh "mkdir ${baseDir}"
+                sh "mkdir -p ${baseDir}"
                 sh "cp static/index.html ${baseDir}/index.html"
                 sh "cp -R bundle/* ${baseDir}/"
                 sh "ls ${baseDir}"
