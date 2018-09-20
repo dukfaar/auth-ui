@@ -24,6 +24,12 @@ pipeline {
         }
         */
 
+        stage('Build Relay') {
+            steps {
+                sh 'npm run relay'
+            }
+        }
+
         stage('Build') {
             steps {
                 sh 'npm run build'
