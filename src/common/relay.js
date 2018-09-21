@@ -8,14 +8,18 @@ import {
 
 import { parse } from 'graphql'
 
-import { SubscriptionClient, Middleware } from 'subscriptions-transport-ws/dist/client'
+import { SubscriptionClient } from 'subscriptions-transport-ws/dist/client'
 import { WebSocketLink } from 'apollo-link-ws'
-import { ApolloLink, Operation, concat, makePromise, execute } from 'apollo-link'
+import { ApolloLink, makePromise, execute } from 'apollo-link'
+import * as Cookies from 'js-cookie'
 
 import checkForInvalidAccessToken from './relay/checkForInvalidAccessToken'
 
 export const client = new SubscriptionClient(API_GATEWAY_WS,{
     reconnect: true,
+    connectionParams: () => ({
+        Authentication: Cookies.get('Authentication')
+    })
 })
 
 const wsLink = new WebSocketLink(client)
