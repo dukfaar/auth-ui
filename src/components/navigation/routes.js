@@ -8,6 +8,7 @@ import ClientPage from 'ClientPage'
 import RolePage from 'RolePage'
 import PermissionPage from 'PermissionPage'
 import LevePage from '../LevePage'  
+import ClassPage from '../Class/ClassPage'
 
 export class Routes extends React.Component {
     render() {
@@ -20,6 +21,7 @@ export class Routes extends React.Component {
                 <Route path="/role" component={RolePage}/>  
                 <Route path="/permission" component={PermissionPage}/>
                 <Route path="/leve" component={LevePage} />
+                <Route path="/classes" component={ClassPage} />
             </div>
         )
     }
