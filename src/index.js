@@ -1,5 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { Provider } from 'react-redux'
+import 'typeface-roboto'
 
 import './interceptors'
 
@@ -9,11 +11,9 @@ import services from './services'
 
 import AuthUiApp from './components/auth-ui-app'
 
-import { Provider } from 'react-redux'
-
 import {store} from './redux/store'
 
-import 'typeface-roboto'
+import { register as registerServiceWorker} from './registerServiceWorker'
 
 ReactDOM.render(
     <Provider store={store}>
@@ -21,3 +21,5 @@ ReactDOM.render(
     </Provider>, 
     document.getElementById('mainAppBody')
 )
+
+registerServiceWorker()

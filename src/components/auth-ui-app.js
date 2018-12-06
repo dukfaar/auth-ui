@@ -51,7 +51,8 @@ class AuthUiApp extends React.Component {
             { href: '/client', text: 'Client', requires: ['client'] },
             { href: '/permission', text: 'Permission', requires: ['permission'] },
             { href: '/role', text: 'Role', requires: ['role'] },
-            { href: '/leve', text: 'Leves' }
+            { href: '/leve', text: 'Leves' },
+            { href: '/classes', text: 'Classes' }
         ]
 
         if(!loggedIn) navLinks.push({ href: '/login', text: 'Login' })

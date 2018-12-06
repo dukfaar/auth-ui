@@ -1,0 +1,15 @@
+{
+  "short_name": "RC",
+  "name": "RainCollector",
+  "icons": [
+    {
+      "src": "images/favicon.png",
+      "sizes": "304x278",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "./index.html",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#000000"
+}
