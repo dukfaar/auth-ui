@@ -1,25 +1,20 @@
 import React from 'react'
 import { Route } from 'react-router'
+import Loadable from 'react-loadable'
 
-import LoginForm from 'loginForm'
-import { Home } from 'home'
-import UserPage from 'UserPage'
-import ClientPage from 'ClientPage'
-import RolePage from 'RolePage'
-import PermissionPage from 'PermissionPage'
-import LevePage from '../LevePage'  
+const Loading = () => <div>Loading</div>
 
 export class Routes extends React.Component {
     render() {
         return (
             <div>
-                <Route exact path="/" component={Home}/>
-                <Route path="/login" component={LoginForm}/>
-                <Route path="/user" component={UserPage}/>  
-                <Route path="/client" component={ClientPage}/>  
-                <Route path="/role" component={RolePage}/>  
-                <Route path="/permission" component={PermissionPage}/>
-                <Route path="/leve" component={LevePage} />
+                <Route exact path="/" component={Loadable({loader: () => import('../home'), loading: Loading})}/>
+                <Route path="/login" component={Loadable({loader: () => import('../loginForm'), loading: Loading})}/>
+                <Route path="/user" component={Loadable({loader: () => import('../UserPage'), loading: Loading})}/>  
+                <Route path="/client" component={Loadable({loader: () => import('../ClientPage'), loading: Loading})}/>  
+                <Route path="/role" component={Loadable({loader: () => import('../RolePage'), loading: Loading})}/>  
+                <Route path="/permission" component={Loadable({loader: () => import('../PermissionPage'), loading: Loading})}/>
+                <Route path="/leve" component={Loadable({loader: () => import('../LevePage'), loading: Loading})} />
             </div>
         )
     }

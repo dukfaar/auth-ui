@@ -11,6 +11,8 @@ import {
 
 import relayEnvironment from '../common/relay'
 
+import map from 'lodash/map'
+
 import { 
     Table,
     TableHead, 
@@ -70,7 +72,7 @@ class _RoleList extends React.Component {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {_.map(this.props.roles.edges, e => <Role key={e.node._id} role={e.node} permissions={this.props.permissions}/>)}
+                    {map(this.props.roles.edges, e => <Role key={e.node._id} role={e.node} permissions={this.props.permissions}/>)}
                 </TableBody>
             </Table>
         )

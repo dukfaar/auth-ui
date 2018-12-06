@@ -5,7 +5,7 @@ import { List } from '@material-ui/core'
 
 import NavigationLink from './navigationLink'
 
-import * as _ from 'lodash'
+import differenceWith from 'lodash/differenceWith'
 
 class Navigation extends React.Component {
     render() {
@@ -32,7 +32,7 @@ function mergeProps(state, dispatch, props) {
         ...dispatch,
         ...props,
         isValidLink: (link) => {
-            return link.requires ? _.differenceWith(link.requires, state.permissions, (r, p) => r === p.name ).length===0 : true
+            return link.requires ? differenceWith(link.requires, state.permissions, (r, p) => r === p.name ).length===0 : true
         }
     }
 }

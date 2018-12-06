@@ -3,6 +3,9 @@ import * as Cookies from 'js-cookie'
 import { graphql } from 'react-relay'
 import { fetchQuery, client } from '../../common/relay'
 
+import assign from 'lodash/assign'
+import map from 'lodash/map'
+
 export function requestLoginData(username, password) {
     return dispatch => {
         dispatch({ type: 'REQUESTING LOGIN' })
@@ -58,8 +61,8 @@ export function fetchAccountData() {
         
         return fetchQuery(graphql`query actionsMeQuery { me { _id username email permissions { edges { node { name } } } } }`)
         .then(response => {
-            let me = _.assign({}, response.me)
-            me.permissions = _.map(me.permissions.edges, e => e.node)
+            let me = assign({}, response.me)
+            me.permissions = map(me.permissions.edges, e => e.node)
             dispatch({ type: 'SET USER', user: me })
         })
         .catch(err => {

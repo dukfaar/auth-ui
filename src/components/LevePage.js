@@ -6,6 +6,10 @@ import relayEnvironment from '../common/relay'
 
 import { Table, TableHead, TableBody, TableRow, TableCell, Card, CardContent } from '@material-ui/core'
 
+import map from 'lodash/map'
+import sortBy from 'lodash/sortBy'
+import filter from 'lodash/filter'
+
 class _Leve extends React.Component {
     render() {
         return (
@@ -47,9 +51,9 @@ class LeveList extends React.Component {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {_.map(
-                      _.sortBy(
-                        _.filter(
+                    {map(
+                      sortBy(
+                        filter(
                           this.props.leves.edges,
                           n => n.node.level >= this.state.minLevel && n.node.level <= this.state.maxLevel && n.node.xp > 0
                         ), 

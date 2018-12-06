@@ -1,7 +1,9 @@
 import React from 'react'
-import * as _ from 'lodash'
+import find from 'lodash/find'
 import { QueryRenderer, createFragmentContainer, graphql } from 'react-relay'
 import relayEnvironment from '../common/relay'
+
+import map from 'lodash/map'
 
 import { Table, TableHead, TableBody, TableRow, TableCell, Card, CardContent, Grid, Collapse, List, ListItem, ListItemText, ListItemIcon, TextField, Icon } from '@material-ui/core'
 import withUserPermissions from '../common/withUserPermissions'
@@ -14,7 +16,7 @@ class _UserPermission extends React.Component {
 
 class _UserPermissionList extends React.Component {
     hasPermission(permissionName) {
-        return _.find(this.props.user.permissions.edges, n => n.node.name === permissionName)
+        return find(this.props.user.permissions.edges, n => n.node.name === permissionName)
     }
 
     render() {
@@ -37,7 +39,7 @@ const UserPermissionList = createFragmentContainer(
 
 class _UserRoleList extends React.Component {
     hasRole(roleName) {
-        return _.find(this.props.user.roles.edges, n => n.node.name === roleName)
+        return find(this.props.user.roles.edges, n => n.node.name === roleName)
     }
 
     render() {
@@ -132,7 +134,7 @@ class UserPage extends React.Component {
                                 render={({ error, props }) => {
                                     if (error) return <div>Ok, this is bad</div>
                                     if (!props) return <div>Still loading</div>
-                                    else return _.map(props.users.edges, n => (
+                                    else return map(props.users.edges, n => (
                                         <ListItem key={n.node._id} button onClick={() => this.selectUser(n.node._id)}>
                                             <User user={n.node}/>
                                         </ListItem>)

@@ -16,6 +16,11 @@ import {
 
 import relayEnvironment from '../../common/relay'
 
+import reject from 'lodash/reject'
+import map from 'lodash/map'
+import find from 'lodash/find'
+import concat from 'lodash/concat'
+
 const updateRoleMutation = graphql`mutation RoleUpdate_Mutation($id: ID!, $input: RoleInput!) { updateRole(id: $id, input: $input) { _id } }`
 const roleUpdatedSubscription = graphql`subscription RoleUpdatedSubscription { roleUpdated { _id name permissions { edges { node { _id name }}} } }`
 
@@ -52,7 +57,7 @@ class Role extends React.Component {
     }
 
     removePermission(permission) {
-        this.setNewPermissions( _.reject(_.map(this.props.role.permissions.edges, p => p.node._id), p => p === permission._id))
+        this.setNewPermissions( reject(map(this.props.role.permissions.edges, p => p.node._id), p => p === permission._id))
     }
 
     processKeyPress = (event) => {
@@ -60,9 +65,9 @@ class Role extends React.Component {
         if(key === 'Enter') {
             let newPermissionName = event.target.value
 
-            let permission = _.find(this.props.permissions.edges, p => p.node.name === newPermissionName)
+            let permission = find(this.props.permissions.edges, p => p.node.name === newPermissionName)
 
-            this.setNewPermissions(_.concat(_.map(this.props.role.permissions.edges, p => p.node._id), permission.node._id))
+            this.setNewPermissions(concat(map(this.props.role.permissions.edges, p => p.node._id), permission.node._id))
         }
     }
 
@@ -71,7 +76,7 @@ class Role extends React.Component {
             <TableRow>
                 <TableCell>{this.props.role.name}</TableCell>
                 <TableCell>
-                    {_.map(this.props.role.permissions.edges, e => 
+                    {map(this.props.role.permissions.edges, e => 
                         <Chip key={e.node._id} label={e.node.name} onDelete={() => this.removePermission(e.node)}/>
                     )}
                     <TextField label="New Permission" onKeyPress={this.processKeyPress}/>

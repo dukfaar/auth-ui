@@ -1,26 +1,21 @@
 import React from 'react'
 
 import { createFragmentContainer, QueryRenderer, graphql } from 'react-relay'
+import map from 'lodash/map'
 
 import relayEnvironment from '../common/relay'
 
 import { Table, TableHead, TableBody, TableRow, TableCell, Card, CardContent } from '@material-ui/core'
 
-class _Client extends React.Component {
-    render() {
-        return (
-            <TableRow>
-                <TableCell>{this.props.client.clientId}</TableCell>
-                <TableCell>{this.props.client.clientSecret}</TableCell>
-                <TableCell>{this.props.client.grants}</TableCell>
-            </TableRow>
-        )
-    }
-}
-
-const Client = createFragmentContainer(_Client,
+const Client = createFragmentContainer(client => {
+    <TableRow>
+        <TableCell>{client.clientId}</TableCell>
+        <TableCell>{client.clientSecret}</TableCell>
+        <TableCell>{client.grants}</TableCell>
+    </TableRow>
+},
     graphql`fragment ClientPage_client on Client { clientId clientSecret grants }`
-) 
+)
 
 class ClientList extends React.Component {
     render() {
@@ -34,7 +29,7 @@ class ClientList extends React.Component {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {_.map(this.props.clients.edges, n => <Client key={n.node._id} client={n.node}/>)}
+                    {map(this.props.clients.edges, n => <Client key={n.node._id} client={n.node} />)}
                 </TableBody>
             </Table>
         )
@@ -58,7 +53,7 @@ class ClientPage extends React.Component {
                 </CardContent>
             </Card>
         )
-    }    
+    }
 }
 
 export default ClientPage

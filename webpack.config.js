@@ -1,6 +1,7 @@
 const path = require('path')
 const webpack = require('webpack')
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 const modulePaths = [
     path.join(__dirname, "node_modules"),
@@ -42,7 +43,8 @@ function getUglifyPlugin() {
 function getProductionPlugins() {
     return [
         getDefinePlugin(),
-        getUglifyPlugin()
+        getUglifyPlugin(),
+        new BundleAnalyzerPlugin()
     ]
 }
 
@@ -70,7 +72,7 @@ module.exports = {
         modules: modulePaths
     },
     resolve: {
-        modules: modulePaths
+        modules: modulePaths,
     },
     module: {
         rules: [
