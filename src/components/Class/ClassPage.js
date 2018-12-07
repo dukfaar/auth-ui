@@ -6,6 +6,8 @@ import relayEnvironment from '../../common/relay'
 
 import { Card, CardContent, Grid } from '@material-ui/core'
 
+import map from 'lodash/map'
+
 let ClassCard = createFragmentContainer(
   ({ c }) => (
     <Card>
@@ -21,7 +23,7 @@ let ClassCard = createFragmentContainer(
 
 
 let ClassList = ({ classes }) =>
-  _.map(classes.edges, n => <Grid item key={n.node._id} xs={12} sm={6} md={4} lg={3}><ClassCard c={n.node} /></Grid>)
+  map(classes.edges, n => <Grid item key={n.node._id} xs={12} sm={6} md={4} lg={3}><ClassCard c={n.node} /></Grid>)
 
 
 class ClassPage extends React.Component {
