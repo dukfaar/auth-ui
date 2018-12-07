@@ -64,6 +64,9 @@ type Mutation {
   updatePermission(input: PermissionInput!, id: ID!): Permission @deprecated
   updateRole(id: ID!, input: RoleInput!): Role @deprecated
   updateUser(id: ID!, input: UserInput!): User @deprecated
+  createClass(input: ClassMutationInput): Class!
+  updateClass(id: ID!, input: ClassMutationInput): Class!
+  deleteClass(id: ID!): ID
 }
 
 type PageInfo {
@@ -107,6 +110,10 @@ type Query {
   user(id: ID!): User @deprecated
   userByAccessToken(accessToken: String!): User @deprecated
   users(before: ID, first: Int, last: Int, after: ID): UserConnection @deprecated
+  classes(first: Int, last: Int, before: String, after: String): ClassConnection!
+  class(id: ID!): Class!
+  classByName(name: String!, namespaceId: ID): Class!
+  classByNameOrSynonym(name: String!, namespaceId: ID): Class!
 }
 
 type Role {
@@ -192,3 +199,27 @@ input UserInput {
   roles: [String]
 }
 
+input ClassMutationInput {
+  name: String
+  namespaceId: ID
+  synonyms: [String]
+  maxLevel: Int
+}
+
+type Class {
+	_id: ID
+	name: String
+	namespaceId: ID
+	synonyms: [String]
+	maxLevel: Int
+}
+
+type ClassConnection {
+  edges: [ClassEdge] @deprecated
+  pageInfo: PageInfo! @deprecated
+}
+
+type ClassEdge {
+  cursor: String! @deprecated
+  node: Class @deprecated
+}
