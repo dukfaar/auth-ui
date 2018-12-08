@@ -2,6 +2,7 @@ const path = require('path')
 const webpack = require('webpack')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+const WorkboxPlugin = require('workbox-webpack-plugin')
 
 const modulePaths = [
     path.join(__dirname, "node_modules"),
@@ -40,17 +41,30 @@ function getUglifyPlugin() {
     })
 }
 
+function getWorkboxPlugin() {
+    return new WorkboxPlugin.GenerateSW({
+        runtimeCaching: [
+            {
+                urlPattern: /.*/,
+                handler: 'networkFirst'
+            }
+        ]
+    })
+}
+
 function getProductionPlugins() {
     return [
         getDefinePlugin(),
         getUglifyPlugin(),
+        getWorkboxPlugin(),
         new BundleAnalyzerPlugin()
     ]
 }
 
 function getDevPlugins() {
     return [
-        getDefinePlugin()
+        getDefinePlugin(),
+        getWorkboxPlugin()
     ]
 }
 
@@ -79,7 +93,7 @@ module.exports = {
             { test: /\.js$/, loader: 'babel-loader'  },
             { test: /\.jsx$/, loader: 'babel-loader' },
             { test: /\.css$/, loader: 'style-loader!css-loader' },
-            { test: /\.(woff|woff2|eot|ttf|svg)$/, loader: 'file-loader?name=fonts/[name].[ext]&publicPath=/bundle' }
+            { test: /\.(woff|woff2|eot|ttf|svg)$/, loader: 'file-loader?name=fonts/[name].[ext]&publicPath=/' }
         ]
     },
     optimization: {

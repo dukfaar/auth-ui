@@ -51,7 +51,7 @@ function checkValidServiceWorker(swUrl) {
 export function register() {
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-      const swUrl = './serviceWorker.js'
+      const swUrl = './service-worker.js'
 
       if (!isLocalhost) {
         registerValidSW(swUrl)

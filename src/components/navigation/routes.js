@@ -2,13 +2,15 @@ import React from 'react'
 import { Route } from 'react-router'
 import Loadable from 'react-loadable'
 
+import Home from '../home'
+
 const Loading = () => <div>Loading</div>
 
 export class Routes extends React.Component {
     render() {
         return (
             <div>
-                <Route exact path="/" component={Loadable({loader: () => import('../home'), loading: Loading})}/>
+                <Route exact path="/" component={Home}/>
                 <Route path="/login" component={Loadable({loader: () => import('../loginForm'), loading: Loading})}/>
                 <Route path="/user" component={Loadable({loader: () => import('../UserPage'), loading: Loading})}/>  
                 <Route path="/client" component={Loadable({loader: () => import('../ClientPage'), loading: Loading})}/>  
