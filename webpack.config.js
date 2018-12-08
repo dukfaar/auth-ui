@@ -1,7 +1,6 @@
 const path = require('path')
 const webpack = require('webpack')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const WorkboxPlugin = require('workbox-webpack-plugin')
 
 const modulePaths = [
@@ -57,7 +56,6 @@ function getProductionPlugins() {
         getDefinePlugin(),
         getUglifyPlugin(),
         getWorkboxPlugin(),
-        new BundleAnalyzerPlugin()
     ]
 }
 
