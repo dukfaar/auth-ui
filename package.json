@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "cross-env API_GATEWAY_WS=ws://localhost:8090/socket CLIENT_ID=initialClientId CLIENT_SECRET=initialClientSecret npm run start-dev",
+    "start": "cross-env API_GATEWAY_WS=wss://api-gateway.dukfaar.com/socket CLIENT_ID=initialClientId CLIENT_SECRET=initialClientSecret npm run start-dev",
     "start-dev": "webpack-dev-server --progress",
     "build": "webpack",
     "test": "echo \"Error: no test specified\" && exit 1",
